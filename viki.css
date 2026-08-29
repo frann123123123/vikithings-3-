@@ -1,0 +1,300 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+  color: white;
+  position: relative;
+}
+
+.container {
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  transition: opacity 0.8s ease;
+}
+
+.container.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Gift Box */
+.gift-box {
+  width: 220px;
+  height: 180px;
+  margin: 0 auto 30px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  perspective: 800px;
+}
+
+.gift-box:hover {
+  transform: scale(1.05);
+}
+
+.gift-box.opened {
+  cursor: default;
+}
+
+.lid {
+  width: 240px;
+  height: 60px;
+  background: #ff6b9d;
+  border-radius: 8px 8px 4px 4px;
+  position: absolute;
+  top: -30px;
+  left: -10px;
+  z-index: 2;
+  transform-origin: bottom center;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.6s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+}
+
+.lid::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  background: #ff8fab;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.box {
+  width: 220px;
+  height: 150px;
+  background: #ff4d8d;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(255, 77, 141, 0.4);
+}
+
+.box::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  background: #ff6b9d;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ribbon-bow {
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 40px;
+  transition: opacity 0.4s ease;
+}
+
+.gift-box.opened .lid {
+  transform: translateY(-110px) rotateX(110deg);
+  opacity: 0.85;
+}
+
+.gift-box.opened .ribbon-bow {
+  opacity: 0;
+}
+
+/* Content */
+.content {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s ease 0.4s;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.content.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.flowers {
+  font-size: 70px;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #ff8fab, #ffc2d1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin-bottom: 8px;
+}
+
+.click-hint {
+  margin-top: 25px;
+  font-size: 0.95rem;
+  color: #aaa;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.hidden {
+  display: none;
+}
+
+/* Flores reales */
+.flower {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  animation: appearFlower 0.6s ease forwards;
+}
+
+.flower img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+@keyframes appearFlower {
+  to {
+    opacity: 0.95;
+  }
+}
+
+.flower.fall {
+  animation: fallFlower 1.8s ease-in forwards;
+}
+
+@keyframes fallFlower {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Carta */
+.letter-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 182, 193, 0.15);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+  padding: 20px;
+}
+
+.letter-container.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.letter {
+  background: #fdf8f0;
+  color: #333;
+  max-width: 520px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 40px 36px;
+  border-radius: 4px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  position: relative;
+  transform: translateY(30px);
+  transition: transform 0.8s ease;
+}
+
+.letter-container.show .letter {
+  transform: translateY(0);
+}
+
+/* Efecto de papel */
+.letter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #ffb6c1, #ffc0cb, #ffb6c1);
+  border-radius: 4px 4px 0 0;
+}
+
+.letter p {
+  color: #333;
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+
+.letter .question {
+  margin-top: 24px;
+  font-weight: bold;
+  font-size: 1.15rem;
+  color: #c2185b;
+}
+
+.letter .signature {
+  margin-top: 28px;
+  text-align: right;
+  font-style: italic;
+  color: #555;
+}
+
+/* Scrollbar de la carta */
+.letter::-webkit-scrollbar {
+  width: 6px;
+}
+
+.letter::-webkit-scrollbar-thumb {
+  background: #ffb6c1;
+  border-radius: 10px;
+}
+
+/* Dibujito al final de la carta */
+.dibujo-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.dibujo {
+  max-width: 280px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
